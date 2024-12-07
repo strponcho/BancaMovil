@@ -1,20 +1,36 @@
-import { View, Text, FlatList, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const TransactionScreen = () => {
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    const loadTransactions = async () => {
+      try {
+        const storedTransactions = await AsyncStorage.getItem("transactions");
+        if (storedTransactions) {
+          setTransactions(JSON.parse(storedTransactions));
+        }
+      } catch (error) {
+        console.error("Error al cargar las transacciones:", error);
+      }
+    };
+
+    loadTransactions();
+  }, []);
 
   const renderTransaction = ({ item }) => (
     <View style={styles.transactionItem}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.transactionScroll}>
-        <Text style={styles.transactionType}>{item.type}</Text>
-        <Text style={styles.transactionName}>{item.name}</Text>
-        <Text style={styles.transactionAmount}>${item.amount}</Text>
-        <Text style={styles.transactionDate}>{item.date}</Text>
-      </ScrollView>
+      <Text style={styles.transactionType}>{item.type}</Text>
+      <Text style={styles.transactionName}>{item.name}</Text>
+      <Text style={styles.transactionAmount}>${item.amount}</Text>
+      <Text style={styles.transactionDate}>{item.date}</Text>
     </View>
   );
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.title}>Historial de Transacciones</Text>
       {transactions.length === 0 ? (
         <Text style={styles.noTransactions}>No hay transacciones registradas.</Text>
@@ -27,6 +43,49 @@ import { View, Text, FlatList, ScrollView } from "react-native";
       )}
     </View>
   );
+};
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#333",
+    left: 30,
+  },
+  transactionItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  transactionType: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  transactionName: {
+    fontSize: 16,
+  },
+  transactionAmount: {
+    fontSize: 16,
+    color: "#2E8B57",
+  },
+  transactionDate: {
+    fontSize: 14,
+    color: "#888",
+  },
+  noTransactions: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "#999",
+    marginTop: 20,
+  },
+});
 
 export default TransactionScreen;
