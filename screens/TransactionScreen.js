@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, ScrollView, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TransactionScreen = () => {
@@ -22,10 +22,13 @@ const TransactionScreen = () => {
 
   const renderTransaction = ({ item }) => (
     <View style={styles.transactionItem}>
-      <Text style={styles.transactionType}>{item.type}</Text>
-      <Text style={styles.transactionName}>{item.name}</Text>
-      <Text style={styles.transactionAmount}>${item.amount}</Text>
-      <Text style={styles.transactionDate}>{item.date}</Text>
+      {/* Habilitamos scroll horizontal para el contenido de cada transacción */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <Text style={styles.transactionType}>{item.type}</Text>
+        <Text style={styles.transactionName}> - {item.name}</Text>
+        <Text style={styles.transactionAmount}> - ${item.amount}</Text>
+        <Text style={styles.transactionDate}> - {item.date}</Text>
+      </ScrollView>
     </View>
   );
 
@@ -56,11 +59,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
-    left: 30,
   },
   transactionItem: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
@@ -71,6 +73,7 @@ const styles = StyleSheet.create({
   },
   transactionName: {
     fontSize: 16,
+    color: "#2E8B57",
   },
   transactionAmount: {
     fontSize: 16,
