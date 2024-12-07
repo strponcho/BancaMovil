@@ -9,6 +9,7 @@ import DashboardScreen from './screens/DashboardScreen';
 import MoneyScreen from './screens/MoneyScreen';
 import TransferScreen from './screens/TransferScreen';
 import ReceiveMoneyScreen from './screens/ReceiveMoneyScreen';
+import TransactionScreen from './screens/TransactionScreen';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -28,7 +29,7 @@ export default function App() {
         <Stack.Screen
           name="Signup"
           component={SignupScreen}
-          options={{ headerShown: false }}
+          options={{ title: 'Signup' }}
         />
         <Stack.Screen
          name="Dashboard"
@@ -38,17 +39,22 @@ export default function App() {
         <Stack.Screen
           name="Money"
           component={MoneyScreen}
-          options={{ headerShown: false }}
+          options={{ title: 'Money' }}
         />
         <Stack.Screen
           name="Transfer"
           component={TransferScreen}
-          options={{ headerShown: false }}
+          options={{ title: 'Transfer'}}
         />
         <Stack.Screen
           name="ReceiveMoney"
           component={ReceiveMoneyScreen}
-          options={{ headerShown: false }}
+          options={{ title: 'ReceiveMoney'}}
+        />
+         <Stack.Screen
+          name="Transactions"
+          component={TransactionScreen}
+          options={{ title: 'Transactions' }}
         />
 
       </Stack.Navigator>

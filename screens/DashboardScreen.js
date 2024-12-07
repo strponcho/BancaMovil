@@ -5,27 +5,26 @@ import { Ionicons } from '@expo/vector-icons';
 const DashboardScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={[styles.moon, styles.topMoon]} />
-      <View style={[styles.moon, styles.bottomMoon]} />
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.navigate('Login')}
-      >
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
 
       <Image
         source={require('../assets/burger.png')}
-        style={styles.burgerTopLeft}
+        style={styles.burgerTop1}
       />
-      <Text style={styles.title}>Bienvenido a tu Banca</Text>
+      <Image
+        source={require('../assets/burger.png')}
+        style={styles.burgerTop2}
+      />
+      <Image
+        source={require('../assets/burger.png')}
+        style={styles.burgerTop3}
+      />
+      <Text style={styles.title}>Welcome to Bank</Text>
 
       <View style={styles.optionsContainer}>
 
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Money')}>
           <Image
-            source={require('../assets/burger.png')}
+            source={require('../assets/CARLS STAR.png')}
             style={styles.optionImage}
           />
           <Text style={styles.optionText}>Dinero</Text>
@@ -45,14 +44,6 @@ const DashboardScreen = ({ navigation }) => {
             style={styles.optionImage}
           />
           <Text style={styles.optionText}>Recibir Dinero</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Notifications')}>
-          <Image
-            source={require('../assets/CARLS STAR.png')}
-            style={styles.optionImage}
-          />
-          <Text style={styles.optionText}>Notifications</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Transactions')}>
@@ -101,12 +92,28 @@ const styles = StyleSheet.create({
     top: 40,
     left: 20,
   },
-  burgerTopLeft: {
+  burgerTop1: {
     position: 'absolute',
-    top: 80,
-    left: 200,
-    width: 200,
-    height: 200,
+    top: 38,
+    left: 266,
+    width: 150,
+    height: 180,
+    resizeMode: 'contain',
+  },
+  burgerTop2: {
+    position: 'absolute',
+    top: 300,
+    left: -3,
+    width: 150,
+    height: 180,
+    resizeMode: 'contain',
+  },
+  burgerTop3: {
+    position: 'absolute',
+    top: 460,
+    left: 266,
+    width: 150,
+    height: 180,
     resizeMode: 'contain',
   },
   optionsContainer: {

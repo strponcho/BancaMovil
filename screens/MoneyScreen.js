@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 const MoneyScreen = ({ navigation }) => {
   const balance = 1500.75; 
@@ -9,13 +8,6 @@ const MoneyScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={[styles.moon, styles.topMoon]} />
       <View style={[styles.moon, styles.bottomMoon]} />
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
 
       <Image
         source={require('../assets/burger.png')}

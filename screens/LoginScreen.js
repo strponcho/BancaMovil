@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation, route }) => {
@@ -28,13 +27,6 @@ const LoginScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={[styles.moon, styles.topMoon]} />
       <View style={[styles.moon, styles.bottomMoon]} />
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.navigate('Home')}
-      >
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
 
       <Image source={require('../assets/burger.png')} style={styles.burgerTopLeft} />
       <Image source={require('../assets/burger.png')} style={styles.burgerBottomRight} />

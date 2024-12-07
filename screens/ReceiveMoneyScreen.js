@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { Ionicons } from '@expo/vector-icons';
 
 const ReceiveMoneyScreen = ({ navigation }) => {
   const user = {
@@ -11,12 +10,7 @@ const ReceiveMoneyScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Ionicons name="arrow-back" size={24} color="black" />
-      </TouchableOpacity>
+
       <Text style={styles.title}>Recibir Dinero</Text>
       <Text style={styles.subtitle}>
         Comparte tu código QR con el remitente para recibir dinero.
