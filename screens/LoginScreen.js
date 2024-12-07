@@ -18,7 +18,6 @@ const LoginScreen = ({ navigation, route }) => {
     }
 
     if (email === user.email && password === user.password) {
-      // Si los datos son correctos, navegar a Dashboard
       navigation.navigate('Dashboard');
     } else {
       Alert.alert('Error', 'Correo o contraseña incorrectos');

@@ -13,11 +13,9 @@ const SignupScreen = ({ navigation }) => {
     if (name === '' || lastName === '' || email === '' || password === '') {
       Alert.alert('Error', 'Por favor, completa todos los datos');
     } else {
-      // Guardamos los datos en AsyncStorage
       const user = { name, lastName, email, password };
       await AsyncStorage.setItem('user', JSON.stringify(user));
 
-      // Navegamos al Login con un mensaje de éxito
       navigation.navigate('Login', { message: 'Felicidades, te has registrado. Ahora ya podrás acceder a tu banca.' });
     }
   };
