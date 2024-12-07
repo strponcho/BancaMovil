@@ -1,9 +1,29 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation, route }) => {
   const message = route.params?.message;
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+
+    if (!user) {
+      Alert.alert('Error', 'No se ha encontrado ningún usuario registrado');
+      return;
+    }
+
+    if (email === user.email && password === user.password) {
+      // Si los datos son correctos, navegar a Dashboard
+      navigation.navigate('Dashboard');
+    } else {
+      Alert.alert('Error', 'Correo o contraseña incorrectos');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -25,13 +45,24 @@ const LoginScreen = ({ navigation, route }) => {
 
         {message && <Text style={styles.message}>{message}</Text>}
 
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput style={styles.input} placeholder="Password" secureTextEntry />
-
-        <Button
-          title="Sign Up"
-          onPress={() => navigation.navigate('Dashboard')}
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
         />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Log In</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
           <Text style={styles.signupText}>Don’t have an account? Sign up here</Text>
         </TouchableOpacity>
@@ -125,7 +156,6 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-
 
 
 

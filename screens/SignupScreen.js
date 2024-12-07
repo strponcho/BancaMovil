@@ -1,8 +1,27 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupScreen = ({ navigation }) => {
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignUp = async () => {
+    if (name === '' || lastName === '' || email === '' || password === '') {
+      Alert.alert('Error', 'Por favor, completa todos los datos');
+    } else {
+      // Guardamos los datos en AsyncStorage
+      const user = { name, lastName, email, password };
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+
+      // Navegamos al Login con un mensaje de éxito
+      navigation.navigate('Login', { message: 'Felicidades, te has registrado. Ahora ya podrás acceder a tu banca.' });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={[styles.moon, styles.topMoon]} />
@@ -15,34 +34,40 @@ const SignupScreen = ({ navigation }) => {
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
 
-      <Image
-        source={require('../assets/CARLS STAR.png')}
-        style={styles.carlsStarImage}
-      />
+      <Image source={require('../assets/CARLS STAR.png')} style={styles.carlsStarImage} />
 
       <View style={styles.oval}>
         <Text style={styles.title}>Complete the tasks</Text>
+
         <TextInput
           style={styles.input}
           placeholder="Name"
+          value={name}
+          onChangeText={setName}
         />
         <TextInput
           style={styles.input}
           placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
         />
         <TextInput
           style={styles.input}
           placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
-        <Button
-          title="Sign Up"
-          onPress={() => navigation.navigate('Login', { message: 'Felicidades, te has registrado, ahora ya podrás acceder a tu banca.' })}
-        />
+
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -117,7 +142,5 @@ const styles = StyleSheet.create({
 });
 
 export default SignupScreen;
-
-
 
 
