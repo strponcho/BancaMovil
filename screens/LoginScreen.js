@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation, route }) => {
@@ -17,6 +17,7 @@ const LoginScreen = ({ navigation, route }) => {
     }
 
     if (email === user.email && password === user.password) {
+      await AsyncStorage.setItem('activeUser', email);  // Guardar email del usuario activo
       navigation.navigate('Dashboard');
     } else {
       Alert.alert('Error', 'Correo o contraseña incorrectos');
@@ -144,9 +145,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  buttonText: {
+      backgroundColor: 'white',
+      padding: 10,
+      borderRadius: 10,
+  }
 });
 
 export default LoginScreen;
+
 
 
 

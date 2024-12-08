@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, ScrollView, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TransactionScreen = () => {
@@ -8,9 +8,12 @@ const TransactionScreen = () => {
   useEffect(() => {
     const loadTransactions = async () => {
       try {
-        const storedTransactions = await AsyncStorage.getItem("transactions");
-        if (storedTransactions) {
-          setTransactions(JSON.parse(storedTransactions));
+        const activeUser = await AsyncStorage.getItem('activeUser');  // Obtener el usuario activo
+        if (activeUser) {
+          const userTransactions = await AsyncStorage.getItem(`transactions_${activeUser}`);
+          if (userTransactions) {
+            setTransactions(JSON.parse(userTransactions));
+          }
         }
       } catch (error) {
         console.error("Error al cargar las transacciones:", error);
@@ -20,32 +23,30 @@ const TransactionScreen = () => {
     loadTransactions();
   }, []);
 
-  const renderTransaction = ({ item }) => (
-    <View style={styles.transactionItem}>
-      {/* Habilitamos scroll horizontal para el contenido de cada transacción */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <Text style={styles.transactionType}>{item.type}</Text>
-        <Text style={styles.transactionName}> - {item.name}</Text>
-        <Text style={styles.transactionAmount}> - ${item.amount}</Text>
-        <Text style={styles.transactionDate}> - {item.date}</Text>
-      </ScrollView>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Historial de Transacciones</Text>
-      {transactions.length === 0 ? (
-        <Text style={styles.noTransactions}>No hay transacciones registradas.</Text>
-      ) : (
-        <FlatList
-          data={transactions}
-          keyExtractor={(item) => item.id}
-          renderItem={renderTransaction}
-        />
-      )}
+  
+      {/* ScrollView para desplazamiento vertical */}
+      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+        {/* Verificamos si hay transacciones y las mostramos */}
+        {transactions.length === 0 ? (
+          <Text style={styles.noTransactions}>No hay transacciones registradas.</Text>
+        ) : (
+          transactions.map((item) => (
+            <View style={styles.transactionItem} key={item.id}>
+              <Text style={styles.transactionType}>{item.type}</Text>
+              <Text style={styles.transactionName}> - {item.name}</Text>
+              <Text style={styles.transactionAmount}> - ${item.amount}</Text>
+              <Text style={styles.transactionDate}> - {item.date}</Text>
+            </View>
+          ))
+        )}
+      </ScrollView>
     </View>
   );
+  
+  
 };
 
 const styles = StyleSheet.create({
@@ -59,10 +60,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
+    textAlign: 'center',  // Centramos el título
   },
   transactionItem: {
-    flexDirection: "row",
-    alignItems: "center",
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",

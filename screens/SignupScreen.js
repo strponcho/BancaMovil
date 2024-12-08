@@ -129,6 +129,11 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: 'contain',
   },
+  buttonText: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 10,
+}
 });
 
 export default SignupScreen;
