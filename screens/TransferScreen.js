@@ -180,12 +180,9 @@ const TransferScreen = () => {
       <View style={styles.transactionHistory}>
   <Text style={styles.historyTitle}>Transacciones Recientes</Text>
 
-  {/* ScrollView para el desplazamiento vertical */}
   <ScrollView style={{ width: '100%' }}>
-    {/* ScrollView para el desplazamiento horizontal de las transacciones */}
     <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 10 }}>
       <View style={{ width: '100%' }}>
-        {/* Mapeamos las transacciones para renderizarlas */}
         {tempTransactions.length === 0 ? (
           <Text style={styles.noTransactions}>No hay transacciones registradas.</Text>
         ) : (
@@ -296,45 +293,45 @@ const styles = StyleSheet.create({
   transactionHistory: {
     flex: 1,
     marginTop: 20,
-    paddingHorizontal: 20, // Más espacio a los lados
-    paddingVertical: 10, // Espaciado vertical
-    backgroundColor: "#f9f9f9", // Fondo claro para contraste
-    borderRadius: 10, // Bordes redondeados
-    shadowColor: "#000", // Opcional: sombra para profundidad
+    paddingHorizontal: 20,
+    paddingVertical: 10, 
+    backgroundColor: "#f9f9f9", 
+    borderRadius: 10, 
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   historyTitle: {
-    fontSize: 22, // Título un poco más grande
+    fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 15, // Más espacio con la lista
+    marginBottom: 15,
     color: "#333",
     textAlign: "center",
   },
   transactionItem: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center", // Asegura que el texto y la fecha estén alineados verticalmente
-    paddingVertical: 12, // Más espacio vertical entre ítems
+    alignItems: "center",
+    paddingVertical: 12,
     paddingHorizontal: 15,
-    marginBottom: 8, // Espaciado entre transacciones
-    backgroundColor: "#fff", // Fondo blanco para separar ítems
-    borderRadius: 8, // Bordes redondeados en cada transacción
+    marginBottom: 8, 
+    backgroundColor: "#fff",
+    borderRadius: 8, 
     borderWidth: 1,
-    borderColor: "#eee", // Líneas sutiles entre ítems
+    borderColor: "#eee",
   },
   transactionText: {
     fontSize: 16,
     color: "#333",
-    flex: 1, // Permite que el texto principal ocupe más espacio
-    marginRight: 10, // Espaciado con la fecha
+    flex: 1,
+    marginRight: 10,
   },
   transactionDate: {
     fontSize: 14,
     color: "#888",
-    flexShrink: 1, // Evita que las fechas desborden
+    flexShrink: 1,
     textAlign: "right",
   },
   noTransactions: {

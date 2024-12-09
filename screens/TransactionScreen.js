@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TransactionScreen = () => {
@@ -8,7 +8,7 @@ const TransactionScreen = () => {
   useEffect(() => {
     const loadTransactions = async () => {
       try {
-        const activeUser = await AsyncStorage.getItem('activeUser');  // Obtener el usuario activo
+        const activeUser = await AsyncStorage.getItem('activeUser'); 
         if (activeUser) {
           const userTransactions = await AsyncStorage.getItem(`transactions_${activeUser}`);
           if (userTransactions) {
@@ -27,9 +27,7 @@ const TransactionScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Historial de Transacciones</Text>
   
-      {/* ScrollView para desplazamiento vertical */}
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-        {/* Verificamos si hay transacciones y las mostramos */}
         {transactions.length === 0 ? (
           <Text style={styles.noTransactions}>No hay transacciones registradas.</Text>
         ) : (
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
-    textAlign: 'center',  // Centramos el título
+    textAlign: 'center', 
   },
   transactionItem: {
     paddingVertical: 10,
