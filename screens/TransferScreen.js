@@ -15,7 +15,7 @@ const TransferScreen = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [scanError, setScanError] = useState(null);
 
-  const isFocused = useIsFocused(); // Saber si la pantalla está enfocada
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     (async () => {
@@ -23,14 +23,14 @@ const TransferScreen = () => {
         const { status } = await Camera.requestCameraPermissionsAsync();
         setHasPermission(status === "granted");
       } catch (error) {
-        console.error("Error al solicitar permisos de cámara:", error);
+        console.error("Error requesting camera permissions:", error);
       }
     })();
   }, []);
 
   useEffect(() => {
     if (!isFocused) {
-      setTempTransactions([]); // Limpiar transacciones temporales al salir
+      setTempTransactions([]);
     }
   }, [isFocused]);
 
@@ -44,20 +44,20 @@ const TransferScreen = () => {
         await AsyncStorage.setItem(`transactions_${activeUser}`, JSON.stringify(parsedTransactions));
       }
     } catch (error) {
-      console.error("Error al guardar la transacción en AsyncStorage:", error);
+      console.error("Error saving transaction to AsyncStorage:", error);
     }
   };
 
   const handleTransfer = async () => {
     if (amount && recipient) {
       if (isNaN(amount) || parseFloat(amount) <= 0) {
-        Alert.alert("Error", "Por favor, ingresa una cantidad válida.");
+        Alert.alert("Error", "Please enter a valid amount.");
         return;
       }
 
       const newTransaction = {
         id: Date.now().toString(),
-        type: "Transferencia",
+        type: "Transfer",
         name: recipient,
         amount: parseFloat(amount),
         recipient,
@@ -67,32 +67,32 @@ const TransferScreen = () => {
       setTempTransactions((prevTransactions) => [...prevTransactions, newTransaction]);
       await saveTransactionToStorage(newTransaction);
 
-      Alert.alert("Éxito", `Transfiriendo $${amount} a ${recipient}`);
+      Alert.alert("Success", `Transferring $${amount} to ${recipient}`);
       setAmount("");
       setRecipient("");
     } else {
-      Alert.alert("Error", "Por favor, completa todos los campos.");
+      Alert.alert("Error", "Please complete all fields.");
     }
   };
 
   const handleBarCodeScanned = ({ data }) => {
     try {
       if (!data) {
-        throw new Error("No se detectaron datos en el código QR.");
+        throw new Error("No data detected in QR code.");
       }
 
       const [prefix, amount, recipient] = data.split("/");
 
       if (prefix !== "transfer" || !amount || !recipient) {
-        throw new Error("El formato del código QR es inválido.");
+        throw new Error("The QR code format is invalid.");
       }
 
       setScannedData(data);
-      Alert.alert("Éxito", `Transferencia detectada: $${amount} a ${recipient}`);
+      Alert.alert("Success", `Transfer detected: $${amount} a ${recipient}`);
     } catch (error) {
       setScanError(error.message);
       setScannedData(null);
-      Alert.alert("Error", `Error al escanear el código QR: ${error.message}`);
+      Alert.alert("Error", `Error scanning QR code: ${error.message}`);
     } finally {
       setIsScanning(false);
     }
@@ -111,9 +111,9 @@ const TransferScreen = () => {
     return (
       <View style={styles.cameraContainer}>
         {hasPermission === null ? (
-          <Text>Solicitando permisos...</Text>
+          <Text>Requesting permits...</Text>
         ) : hasPermission === false ? (
-          <Text>No se puede acceder a la cámara. Ve a configuración y habilita los permisos.</Text>
+          <Text>Cannot access camera. Go to settings and enable permissions.</Text>
         ) : (
           <Camera
             style={StyleSheet.absoluteFillObject}
@@ -121,7 +121,7 @@ const TransferScreen = () => {
           >
             <View style={styles.scanButtonContainer}>
               <TouchableOpacity style={styles.scanButton} onPress={() => setIsScanning(false)}>
-                <Text style={styles.scanButtonText}>Cerrar Escáner</Text>
+                <Text style={styles.scanButtonText}>Close Scanner</Text>
               </TouchableOpacity>
             </View>
           </Camera>
@@ -134,29 +134,29 @@ const TransferScreen = () => {
     <View style={styles.container}>
       {!isGeneratingQR && (
         <>
-          <Text style={styles.title}>Transferencia de Dinero</Text>
+          <Text style={styles.title}>Money transfer</Text>
 
           <View style={styles.formContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Cantidad a transferir"
+              placeholder="Amount to transfer"
               keyboardType="numeric"
               value={amount}
               onChangeText={(text) => setAmount(text)}
             />
             <TextInput
               style={styles.input}
-              placeholder="Destinatario"
+              placeholder="Addressee"
               value={recipient}
               onChangeText={(text) => setRecipient(text)}
             />
             <TouchableOpacity style={styles.transferButton} onPress={handleTransfer}>
-              <Text style={styles.transferButtonText}>Transferir</Text>
+              <Text style={styles.transferButtonText}>Transfer</Text>
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity style={styles.qrButton} onPress={() => setIsGeneratingQR(true)}>
-            <Text style={styles.qrButtonText}>Generar Código QR</Text>
+            <Text style={styles.qrButtonText}>Generate QR Code</Text>
           </TouchableOpacity>
         </>
       )}
@@ -164,27 +164,27 @@ const TransferScreen = () => {
       {isGeneratingQR && (
         <View style={styles.qrContainer}>
           <QRCode value={`transfer/${amount || "0"}/${recipient || "anonimo"}`} size={200} />
-          <Text style={styles.qrText}>Escanea este código para recibir la transferencia.</Text>
+          <Text style={styles.qrText}>Scan this code to receive the transfer.</Text>
           <TouchableOpacity style={styles.scanButton} onPress={() => setIsGeneratingQR(false)}>
-            <Text style={styles.scanButtonText}>Cerrar</Text>
+            <Text style={styles.scanButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
       )}
 
       <TouchableOpacity style={styles.scanButton} onPress={() => setIsScanning(true)}>
-        <Text style={styles.scanButtonText}>Escanear Código QR</Text>
+        <Text style={styles.scanButtonText}>Scan QR Code</Text>
       </TouchableOpacity>
 
-      {scannedData && <Text style={styles.scannedText}>Datos Escaneados: {scannedData}</Text>}
+      {scannedData && <Text style={styles.scannedText}>Scanned Data: {scannedData}</Text>}
 
       <View style={styles.transactionHistory}>
-  <Text style={styles.historyTitle}>Transacciones Recientes</Text>
+  <Text style={styles.historyTitle}>Recent Transactions</Text>
 
   <ScrollView style={{ width: '100%' }}>
     <ScrollView horizontal contentContainerStyle={{ paddingHorizontal: 10 }}>
       <View style={{ width: '100%' }}>
         {tempTransactions.length === 0 ? (
-          <Text style={styles.noTransactions}>No hay transacciones registradas.</Text>
+          <Text style={styles.noTransactions}>There are no transactions recorded.</Text>
         ) : (
           tempTransactions.map((transaction) => (
             <View style={styles.transactionItem} key={transaction.id}>

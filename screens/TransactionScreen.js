@@ -16,7 +16,7 @@ const TransactionScreen = () => {
           }
         }
       } catch (error) {
-        console.error("Error al cargar las transacciones:", error);
+        console.error("Error loading transactions:", error);
       }
     };
 
@@ -25,11 +25,11 @@ const TransactionScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Historial de Transacciones</Text>
+      <Text style={styles.title}>Transaction History</Text>
   
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
         {transactions.length === 0 ? (
-          <Text style={styles.noTransactions}>No hay transacciones registradas.</Text>
+          <Text style={styles.noTransactions}>There are no transactions recorded.</Text>
         ) : (
           transactions.map((item) => (
             <View style={styles.transactionItem} key={item.id}>

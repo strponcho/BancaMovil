@@ -27,7 +27,7 @@ const DashboardScreen = ({ navigation }) => {
             source={require('../assets/CARLS STAR.png')}
             style={styles.optionImage}
           />
-          <Text style={styles.optionText}>Dinero</Text>
+          <Text style={styles.optionText}>Money</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Transfer')}>
@@ -35,7 +35,7 @@ const DashboardScreen = ({ navigation }) => {
             source={require('../assets/CARLS STAR.png')}
             style={styles.optionImage}
           />
-          <Text style={styles.optionText}>Transferir Dinero</Text>
+          <Text style={styles.optionText}>Transfer Money</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('ReceiveMoney')}>
@@ -43,7 +43,7 @@ const DashboardScreen = ({ navigation }) => {
             source={require('../assets/CARLS STAR.png')}
             style={styles.optionImage}
           />
-          <Text style={styles.optionText}>Recibir Dinero</Text>
+          <Text style={styles.optionText}>Receive Money</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Transactions')}>

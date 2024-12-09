@@ -12,15 +12,15 @@ const LoginScreen = ({ navigation, route }) => {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
 
     if (!user) {
-      Alert.alert('Error', 'No se ha encontrado ningún usuario registrado');
+      Alert.alert('Error', 'No registered users found');
       return;
     }
 
     if (email === user.email && password === user.password) {
-      await AsyncStorage.setItem('activeUser', email);  // Guardar email del usuario activo
+      await AsyncStorage.setItem('activeUser', email);
       navigation.navigate('Dashboard');
     } else {
-      Alert.alert('Error', 'Correo o contraseña incorrectos');
+      Alert.alert('Error', 'Incorrect email or password');
     }
   };
 

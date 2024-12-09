@@ -14,7 +14,7 @@ const MoneyScreen = ({ navigation }) => {
         style={styles.burgerTopLeft}
       />
 
-      <Text style={styles.title}>Saldo Disponible</Text>
+      <Text style={styles.title}>Available Balance</Text>
 
       <Text style={styles.balanceAmount}>
         ${balance.toFixed(2)}

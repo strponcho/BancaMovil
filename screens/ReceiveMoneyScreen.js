@@ -11,9 +11,9 @@ const ReceiveMoneyScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
-      <Text style={styles.title}>Recibir Dinero</Text>
+      <Text style={styles.title}>Receive money</Text>
       <Text style={styles.subtitle}>
-        Comparte tu código QR con el remitente para recibir dinero.
+      Share your QR code with the sender to receive money.
       </Text>
 
       <View style={styles.qrContainer}>
@@ -23,11 +23,11 @@ const ReceiveMoneyScreen = ({ navigation }) => {
           color="black"
           backgroundColor="white"
         />
-        <Text style={styles.qrText}>Escanea este código QR para enviar dinero.</Text>
+        <Text style={styles.qrText}>Scan this QR code to send money.</Text>
       </View>
 
       <TouchableOpacity style={styles.shareButton} onPress={() => alert("Compartir QR próximamente...")}>
-        <Text style={styles.shareButtonText}>Compartir Código QR</Text>
+        <Text style={styles.shareButtonText}>Share QR Code</Text>
       </TouchableOpacity>
     </View>
   );
