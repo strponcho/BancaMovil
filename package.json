@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon --watch . js index.js",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -23,6 +24,7 @@
     "expo-status-bar": "~2.0.0",
     "express": "^4.21.2",
     "mysql2": "^3.11.5",
+    "nodemon": "^3.1.7",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.3",
@@ -37,7 +39,8 @@
     "react-webcam": "^7.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2"
+    "@babel/core": "^7.25.2",
+    "nodemo": "^1.0.0"
   },
   "private": true
 }

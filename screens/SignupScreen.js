@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+
 
 const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -9,13 +9,51 @@ const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleSignUp = async () => {
-    const user = { name, lastName, email, password };
-    await AsyncStorage.setItem('user', JSON.stringify(user));
+    if (!name || !lastName || !email || !password) {
+      Alert.alert('Error', 'Por favor complete todos los campos.');
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://192.168.1.163:3000/register", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          FirstName: name,
+          LastName: lastName,
+          Email: email,
+          Password: password,
+        }),
+      });
+  
+      const errorData = await response.json();
+  
+      if (response.status === 200) {
+        console.log("Usuario registrado correctamente");
+        const user = { email, password };
+        await AsyncStorage.setItem('user', JSON.stringify(user));
+  
+        Alert.alert('Registro exitoso', 'Te has registrado correctamente.', [
+          {
+            text: 'Aceptar',
+            onPress: () => {
+              navigation.replace('Login', { message: 'Felicidades, te has registrado. Ahora ya podrás acceder a tu banca.' });
+            }
+          }
 
-    navigation.navigate('Login', {
-      message: 'Felicidades, te has registrado. Ahora ya podrÃ¡s acceder a tu banca.',
-    });
+          
+        ]);
+      } else {
+        Alert.alert('Error', errorData.message || 'Hubo un problema al registrar el usuario.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo conectar con el servidor');
+      console.error(error);
+    }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -110,6 +148,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#fff',
   },
+  signupText: {
+    marginTop: 20,
+    color: '#0000EE',
+    textDecorationLine: 'underline',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+  },
   carlsStarImage: {
     position: 'absolute',
     top: 85,
@@ -117,18 +165,12 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: 'contain',
   },
-  button: {
+  buttonText: {
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
-  },
+  }
 });
 
 export default SignupScreen;
-
 
