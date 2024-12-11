@@ -9,42 +9,18 @@ const LoginScreen = ({ navigation, route }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Por favor ingresa tu email y contraseña');
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+
+    if (!user) {
+      Alert.alert('Error', 'No registered users found');
       return;
     }
 
-    try {
-      const response = await fetch("http://192.168.1.163:3000/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Email: email,
-          Password: password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.status === 200) {
-        // Si el login es exitoso
-        console.log('Inicio de sesión exitoso', data);
-
-        // Guardamos el usuario activo en AsyncStorage
-        await AsyncStorage.setItem('activeUser', email);
-
-        // Redirigir a Dashboard
-        navigation.navigate('Dashboard');
-      } else {
-        // Si ocurre un error en el backend
-        Alert.alert('Error', data.message || 'Usuario o contraseña incorrectos');
-      }
-    } catch (error) {
-      // Captura de errores si hay un problema con la conexión
-      console.error(error);
-      Alert.alert('Error', 'No se pudo conectar con el servidor');
+    if (email === user.email && password === user.password) {
+      await AsyncStorage.setItem('activeUser', email);
+      navigation.navigate('Dashboard');
+    } else {
+      Alert.alert('Error', 'Incorrect email or password');
     }
   };
 
@@ -170,12 +146,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonText: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 10,
+      backgroundColor: 'white',
+      padding: 10,
+      borderRadius: 10,
   }
 });
 
 export default LoginScreen;
+
+
+
 
 
