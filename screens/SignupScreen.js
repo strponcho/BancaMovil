@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupScreen = ({ navigation }) => {
@@ -9,14 +9,12 @@ const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleSignUp = async () => {
-    if (name === '' || lastName === '' || email === '' || password === '') {
-      Alert.alert('Error', 'Por favor, completa todos los datos');
-    } else {
-      const user = { name, lastName, email, password };
-      await AsyncStorage.setItem('user', JSON.stringify(user));
+    const user = { name, lastName, email, password };
+    await AsyncStorage.setItem('user', JSON.stringify(user));
 
-      navigation.navigate('Login', { message: 'Felicidades, te has registrado. Ahora ya podrás acceder a tu banca.' });
-    }
+    navigation.navigate('Login', {
+      message: 'Felicidades, te has registrado. Ahora ya podrÃ¡s acceder a tu banca.',
+    });
   };
 
   return (
@@ -112,16 +110,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#fff',
   },
-  signupText: {
-    marginTop: 20,
-    color: '#0000EE',
-    textDecorationLine: 'underline',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
   carlsStarImage: {
     position: 'absolute',
     top: 85,
@@ -129,11 +117,16 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: 'contain',
   },
-  buttonText: {
+  button: {
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
-}
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
 });
 
 export default SignupScreen;
